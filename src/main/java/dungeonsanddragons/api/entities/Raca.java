@@ -1,19 +1,19 @@
 package dungeonsanddragons.api.entities;
 
 import java.io.Serializable;
-import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import dungeonsanddragons.api.enums.Idioma;
 import dungeonsanddragons.api.enums.Tamanho;
 
 @Entity
@@ -30,12 +30,12 @@ public class Raca implements Serializable {
 	private String aventuras;
 	private String terras;
 	private String tendencia;
+	private String nomes;
 	private Tamanho tamanho;
-	private List<Idioma> idiomas;
-	private List<String> nomes;
-	private List<String> nomesMasculinos;
-	private List<String> nomesFemininos;
-	private List<String> caracteristicas;
+	private String idiomas;
+	private Set<String> nomesMasculinos;
+	private Set<String> nomesFemininos;
+	private Set<String> caracteristicas;
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
@@ -117,52 +117,58 @@ public class Raca implements Serializable {
 		this.tamanho = tamanho;
 	}
 	
-	@ElementCollection
-	@Enumerated(EnumType.STRING)
-	public List<Idioma> getIdiomas() {
+	public String getIdiomas() {
 		return idiomas;
 	}
 	
-	public void setIdiomas(List<Idioma> idiomas) {
+	public void setIdiomas(String idiomas) {
 		this.idiomas = idiomas;
 	}
 	
-	@ElementCollection
-	public List<String> getNomes() {
+	public String getNomes() {
 		return nomes;
 	}
 	
-	public void setNomes(List<String> nomes) {
+	public void setNomes(String nomes) {
 		this.nomes = nomes;
 	}
 	
-	@ElementCollection
+	@ElementCollection(fetch = FetchType.EAGER)
 	@Column(name="nomes_masculinos")
-	public List<String> getNomesMasculinos() {
+	public Set<String> getNomesMasculinos() {
 		return nomesMasculinos;
 	}
 	
-	public void setNomesMasculinos(List<String> nomesMasculinos) {
+	public void setNomesMasculinos(Set<String> nomesMasculinos) {
 		this.nomesMasculinos = nomesMasculinos;
 	}
 	
-	@ElementCollection
+	@ElementCollection(fetch = FetchType.EAGER)
 	@Column(name="nomes_feminimos")
-	public List<String> getNomesFemininos() {
+	public Set<String> getNomesFemininos() {
 		return nomesFemininos;
 	}
 	
-	public void setNomesFemininos(List<String> nomesFemininos) {
+	public void setNomesFemininos(Set<String> nomesFemininos) {
 		this.nomesFemininos = nomesFemininos;
 	}
 	
-	@ElementCollection
-	public List<String> getCaracteristicas() {
+	@ElementCollection(fetch = FetchType.EAGER)
+	public Set<String> getCaracteristicas() {
 		return caracteristicas;
 	}
 	
-	public void setCaracteristicas(List<String> caracteristicas) {
+	public void setCaracteristicas(Set<String> caracteristicas) {
 		this.caracteristicas = caracteristicas;
 	}
-	
+
+	@Override
+	public String toString() {
+		return "Raca [id=" + id + ", nome=" + nome + ", descricao=" + descricao + ", descricaoFisica=" + descricaoFisica
+				+ ", relacoes=" + relacoes + ", aventuras=" + aventuras + ", terras=" + terras + ", tendencia="
+				+ tendencia + ", nomes=" + nomes + ", tamanho=" + tamanho + ", idiomas=" + idiomas
+				+ ", nomesMasculinos=" + nomesMasculinos + ", nomesFemininos=" + nomesFemininos + ", caracteristicas="
+				+ caracteristicas + "]";
+	}
+
 }
