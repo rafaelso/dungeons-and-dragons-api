@@ -1,4 +1,4 @@
-package dungeonsanddragons.api;
+package dungeonsanddragons.api.repositories;
 
 import static org.junit.Assert.assertTrue;
 
