@@ -30,7 +30,7 @@ public class RacaRepositoryTest {
 	private RacaRepository racaRepository;
 
 	private Raca raca;
-	private Long idInvalido = 999L;
+	private Long idRacaInvalido = 999L;
 
 	@Before
 	public void setUp() {
@@ -49,8 +49,26 @@ public class RacaRepositoryTest {
 
 	@Test
 	public void testBuscaPorIdSemSucesso() {
-		Optional<Raca> raca = this.racaRepository.findById(this.idInvalido);
+		Optional<Raca> raca = this.racaRepository.findById(this.idRacaInvalido);
 		assertTrue(!raca.isPresent());
+	}
+	
+	@Test
+	public void testBuscaEAcessoACaracteristicas() {
+		Optional<Raca> raca = this.racaRepository.findById(this.raca.getId());
+		raca.get().getCaracteristicas();
+	}
+	
+	@Test
+	public void testBuscaEAcessoANomesMasculinos() {
+		Optional<Raca> raca = this.racaRepository.findById(this.raca.getId());
+		raca.get().getNomesMasculinos();
+	}
+	
+	@Test
+	public void testBuscaEAcessoANomesFemininos() {
+		Optional<Raca> raca = this.racaRepository.findById(this.raca.getId());
+		raca.get().getNomesFemininos();
 	}
 	
 	@After
