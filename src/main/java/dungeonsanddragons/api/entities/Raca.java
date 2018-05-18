@@ -1,6 +1,7 @@
 package dungeonsanddragons.api.entities;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -12,6 +13,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 
 import dungeonsanddragons.api.enums.Tamanho;
@@ -36,6 +39,8 @@ public class Raca implements Serializable {
 	private Set<String> nomesMasculinos;
 	private Set<String> nomesFemininos;
 	private Set<String> caracteristicas;
+	private LocalDateTime dataCriacao;
+	private LocalDateTime dataAtualizacao;
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
@@ -162,13 +167,42 @@ public class Raca implements Serializable {
 		this.caracteristicas = caracteristicas;
 	}
 
+	@Column(name = "data_atualizacao")
+	public LocalDateTime getDataAtualizacao() {
+		return dataAtualizacao;
+	}
+
+	public void setDataAtualizacao(LocalDateTime dataAtualizacao) {
+		this.dataAtualizacao = dataAtualizacao;
+	}
+	
+	@Column(name = "data_criacao")
+	public LocalDateTime getDataCriacao() {
+		return dataCriacao;
+	}
+	
+	public void setDataCriacao(LocalDateTime dataCriacao) {
+		this.dataCriacao = dataCriacao;
+	}
+
+	@PrePersist
+	public void prePersist() {
+		this.dataCriacao = LocalDateTime.now();
+		this.dataAtualizacao = this.dataCriacao;
+	}
+	
+	@PreUpdate
+	public void preUpdate() {
+		this.dataAtualizacao = this.dataCriacao;
+	}
+	
 	@Override
 	public String toString() {
 		return "Raca [id=" + id + ", nome=" + nome + ", descricao=" + descricao + ", descricaoFisica=" + descricaoFisica
 				+ ", relacoes=" + relacoes + ", aventuras=" + aventuras + ", terras=" + terras + ", tendencia="
 				+ tendencia + ", nomes=" + nomes + ", tamanho=" + tamanho + ", idiomas=" + idiomas
 				+ ", nomesMasculinos=" + nomesMasculinos + ", nomesFemininos=" + nomesFemininos + ", caracteristicas="
-				+ caracteristicas + "]";
+				+ caracteristicas + ", dataCriacao=" + dataCriacao + ", dataAtualizacao=" + dataAtualizacao + "]";
 	}
 
 }
